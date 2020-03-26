@@ -9,7 +9,7 @@ pipeline {
         }
         stage('Load Test') {
             steps {
-                sh "gradle -S -info --no-daemon testLoad"
+                sh "./gradlew -S -info --no-daemon testLoad"
             }
             post {
                 always {
