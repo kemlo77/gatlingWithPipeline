@@ -1,10 +1,18 @@
 pipeline {
     agent any
 
+    environment {
+      gatlingTestBaseURL = 'https://www.amazon.com/'
+      gatlingNumberOfUsers = '2'
+      gatlingTestDurationMinutes = '1'
+    }
+
     stages {
         stage('Build') {
             steps {
                 echo 'Building..'
+                echo 'available enverionment variables'
+                sh "printenv | sort"
             }
         }
         stage('Load Test') {
@@ -13,7 +21,7 @@ pipeline {
             }
             post {
                 always {
-                    gatlingArchive() // en del av gatling-pluginet till Jenkins
+                    gatlingArchive()
                 }
                 unstable {
                     echo 'unstable'
