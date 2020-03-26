@@ -1,0 +1,35 @@
+pipeline {
+    agent any
+
+    stages {
+        stage('Build') {
+            steps {
+                echo 'Building..'
+            }
+        }
+        stage('Load Test') {
+            steps {
+                sh "gradle -S -info --no-daemon testLoad"
+            }
+            post {
+                always {
+                    gatlingArchive() // en del av gatling-pluginet till Jenkins
+                }
+                unstable {
+                    echo 'unstable'
+                }
+                failure {
+                    echo 'failure'
+                }
+                success {
+                    echo 'success'
+                }
+            }
+        }
+        stage('Deploy') {
+            steps {
+                echo 'Deploying....'
+            }
+        }
+    }
+}
