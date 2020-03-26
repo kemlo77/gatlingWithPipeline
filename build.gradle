@@ -1,0 +1,36 @@
+plugins {
+    id 'scala'
+}
+
+group 'se.skv.fa.thh.prestax'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testCompile group: "io.gatling.highcharts", name: "gatling-charts-highcharts", version:"3.3.1"
+}
+
+
+/**
+ * Gatling load tests
+ */
+task testLoad(type: JavaExec) {
+    description = 'Test load the Spring Boot web service with Gatling'
+    group = 'Load Test'
+    classpath = sourceSets.test.runtimeClasspath
+    jvmArgs = [
+            "-Dlogback.configurationFile=${logbackGatlingConfig()}"
+    ]
+    main = 'io.gatling.app.Gatling'
+    args = [
+            '--simulation', 'gatling.simulation.LoadTest',
+            '--results-folder', "${buildDir}/gatling-results",
+            '--binaries-folder', sourceSets.test.output.classesDirs.toString()
+    ]
+}
+
+def logbackGatlingConfig() {
+    return sourceSets.test.resources.find { it.name == 'logback-gatling.xml'}
+}
