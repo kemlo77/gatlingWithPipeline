@@ -2,7 +2,8 @@ plugins {
     id 'scala'
 }
 
-group 'se.skv.fa.thh.prestax'
+group 'com.kemling'
+version '1.0-SNAPSHOT'
 
 repositories {
     mavenCentral()
@@ -21,7 +22,10 @@ task testLoad(type: JavaExec) {
     group = 'Load Test'
     classpath = sourceSets.test.runtimeClasspath
     jvmArgs = [
-            "-Dlogback.configurationFile=${logbackGatlingConfig()}"
+            "-Dlogback.configurationFile=${logbackGatlingConfig()}",
+            "-Dgatling.data.console.writePeriod=60",
+            "-Dgatling.charting.indicators.lowerBound=10",
+            "-Dgatling.charting.indicators.higherBound=20"
     ]
     main = 'io.gatling.app.Gatling'
     args = [
