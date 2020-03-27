@@ -43,7 +43,7 @@ class LoadTest extends Simulation {
     scn.inject(atOnceUsers(numberOfUsers))
   ).protocols(httpProtocol).maxDuration(durationOfTest minute)
     .assertions(
-      global.responseTime.max.lt(1000),
+      global.responseTime.max.lt(2000),
       global.successfulRequests.percent.gt(99)
     )
 
